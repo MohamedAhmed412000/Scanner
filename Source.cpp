@@ -32,14 +32,12 @@ string readFile(string filePath){
 	}
 	return input.substr(0, index+1);
 }
-void clearFile(string filename) { 
-	ofstream ofs; 
-	ofs.open(filename, ofstream::out | ofstream::trunc); 
-	ofs.close(); 
-} 
 void writeFile(string input,string filename) { 
 	ofstream log(filename, ios_base::app | ios_base::out); 
 	log << input<<"\n"; 
+}
+void createFile(string path){ 
+	ofstream output(path); 
 }
 
 bool isChar(char in){
@@ -191,13 +189,12 @@ int main() {
 	vector<Token> tokenList;
 	string input = readFile("file.txt");
 	string fileName = "tokens.txt";
-	clearFile(fileName);
-	while (index != (input.length()-1)) {
+	createFile(fileName);
+	while ((index != (input.length()-1)) || (tokenList.back().Type == "Special Symbol") && (index == (input.length()-1))) {
 		tokenList.push_back(getToken(input));
 		writeFile(tokenList.back().Value + ", " + tokenList.back().Type, fileName);
 		cout << tokenList.back().Value << ", " << tokenList.back().Type << endl;
 	}
-
 	system("pause");
 	return 0;
 }
